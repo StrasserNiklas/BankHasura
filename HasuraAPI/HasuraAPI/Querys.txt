@@ -1,0 +1,143 @@
+﻿query GetUsers {
+  user {
+    name
+  }
+}
+
+____________________________________________________________________________________________________________________
+
+mutation CreateUser($name: String) {
+  insert_user_one(object: {
+    name: $name
+    }) {
+    id
+  }
+}
+
+____________________________________________________________________________________________________________________
+
+query CheckIfUserExists($id: Int!) {
+  user_by_pk(id: $id) {
+    name
+  }
+}
+
+____________________________________________________________________________________________________________________
+
+mutation CreatePayment($sender: Int, $recipient: Int, $amount: numeric, $description: String) {
+  insert_payments_one(object: { sender_id: $sender, recipient_id: $recipient, amount: $amount, description: $description}) {
+    created_at
+  }
+}
+
+{
+    "sender": 1,
+    "recipient": 2,
+    "amount": 350,
+    "description": "Hallo"
+}
+
+____________________________________________________________________________________________________________________
+
+mutation CreateTransaction($sender: Int, $recipient: Int, $amount: numeric, $description: String) {
+  insert_transactions_one(object: { sender_id: $sender, recipient_id: $recipient, amount: $amount, description: $description}) {
+    created_at
+  }
+}
+
+{
+    "sender": 1,
+    "recipient": 2,
+    "amount": 350,
+    "description": "Hallo"
+}
+
+____________________________________________________________________________________________________________________
+
+mutation UpdatePayment($id: Int!, $status: String) {
+  update_payments_by_pk(
+    pk_columns: {id: $id}
+    _set: { status: $status}
+  ) {
+    status
+  }
+}
+
+{
+    "id": 5,
+    "status": "Done"
+}
+
+____________________________________________________________________________________________________________________
+
+query GetPayments($id: Int!) {
+  payments(where: { sender_id: {_eq: $id}} ) {
+    created_at
+    amount
+    status
+    description
+    sender {
+      name
+    }
+    recipient {
+      name
+    }
+  }
+}
+
+{
+    "id": 1
+}
+
+____________________________________________________________________________________________________________________
+
+subscription PaymentSubscription($id: Int!) {
+  payments_by_pk(id: $id) {
+    status
+    id
+  }
+}
+
+subscription PaymentSubscription {
+  payments {
+    id
+    sender_id
+    recipient_id
+    amount
+    description
+  }
+}
+
+____________________________________________________________________________________________________________________
+
+query GetTransactions($id: Int!) {
+  transactions(where: { sender_id: {_eq: $id}} ) {
+    created_at
+    amount
+    sender {
+      name
+    }
+    recipient {
+      name
+    }
+  }
+}
+
+{
+    "id": 1
+}
+
+____________________________________________________________________________________________________________________
+
+subscription TransactionSubscription($id: Int!) {
+  transactions_by_pk(id: $id) {
+	created_at
+    amount
+    sender {
+      name
+    }
+    recipient {
+      name
+    }
+  }
+}

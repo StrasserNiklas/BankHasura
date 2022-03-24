@@ -1,0 +1,10 @@
+subscription PaymentSubscription {
+  payments(limit: 1, order_by: {created_at: desc}) {
+    id
+    sender_id
+    recipient_id
+    amount
+    description
+    status
+  }
+}

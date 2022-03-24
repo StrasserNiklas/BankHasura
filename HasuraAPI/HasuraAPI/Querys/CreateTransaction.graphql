@@ -1,0 +1,5 @@
+mutation CreateTransaction($sender: Int, $recipient: Int, $amount: numeric, $description: String) {
+  insert_transactions_one(object: { sender_id: $sender, recipient_id: $recipient, amount: $amount, description: $description}) {
+    created_at
+  }
+}
