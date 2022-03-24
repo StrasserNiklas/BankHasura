@@ -1,0 +1,14 @@
+subscription TransactionSubscription($id: Int!) {
+  transactions(limit: 1, order_by: {created_at: desc}, where: {_or: [{sender_id: {_eq: $id}}, {recipient_id: {_eq: $id}}]}) {
+    amount
+    created_at
+    description
+    id
+    recipient {
+      name
+    }
+    sender {
+      name
+    }
+  }
+}

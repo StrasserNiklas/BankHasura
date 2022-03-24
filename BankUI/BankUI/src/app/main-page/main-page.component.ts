@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { PaymentTransaction } from '../models/payment-transaction';
+
+
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor() { }
+  client: any;
 
-  ngOnInit(): void {
+  constructor() { 
+
   }
 
+  ngOnInit(): void {
+    var test = new PaymentTransaction(0, "x", "b", 0, "ha");
+    //test.jj
+  }
+
+  public Test(): void {
+
+  }
 }

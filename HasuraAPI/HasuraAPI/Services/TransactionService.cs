@@ -10,7 +10,6 @@ public class TransactionService : ITransactionService
     private const string TransactionDoneStatus = "Done";
     private readonly GraphQLHttpClient graphqlClient;
     private readonly string paymentsSubscriptionRequestQuery;
-    //private readonly string checkIfUserExistRequestQuery;
     private readonly string createTransactionRequestQuery;
     private readonly string updatePaymentRequestQuery;
 
@@ -31,21 +30,13 @@ public class TransactionService : ITransactionService
 
         this.paymentsSubscriptionRequestQuery = File.ReadAllText(@"Querys/PaymentSubscription.graphql");
         this.updatePaymentRequestQuery = File.ReadAllText(@"Querys/UpdatePayment.graphql");
-        //this.checkIfUserExistRequestQuery = File.ReadAllText(@"Querys/CheckIfUserExists.graphql");
         this.createTransactionRequestQuery = File.ReadAllText(@"Querys/CreateTransaction.graphql");
     }
 
     public void Subscribe()
     {
-        this.graphqlClient.WebSocketReceiveErrors.Subscribe(x => this.Handle(x));  
-
         var paymentSubscription = this.graphqlClient.CreateSubscriptionStream<PaymentResult>(this.BuildPaymentSubscriptionRequest());
         paymentSubscription.Subscribe(async x => await this.HandlePayments(x.Data.Payments));
-    }
-
-    public void Handle(Exception exction)
-    {
-
     }
 
     private async Task HandlePayments(List<Payment> payments)

@@ -1,0 +1,14 @@
+query GetTransactions($id: Int!) {
+  transactions(where: {_or: [{sender_id: {_eq: $id}}, {recipient_id: {_eq: $id}}]} ) {
+	id
+    created_at
+    amount
+	description
+    sender {
+      name
+    }
+    recipient {
+      name
+    }
+  }
+}

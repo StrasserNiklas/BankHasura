@@ -18,9 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Querys\CheckIfUserExists.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Querys\CreateTransaction.graphql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

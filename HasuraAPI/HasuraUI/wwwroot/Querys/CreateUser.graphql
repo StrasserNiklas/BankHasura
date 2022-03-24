@@ -1,0 +1,7 @@
+mutation CreateUser($name: String) {
+  insert_user_one(object: {
+    name: $name
+    }) {
+    id
+  }
+}

@@ -1,0 +1,12 @@
+query GetPayments($id: Int!) {
+  payments(where: { sender_id: {_eq: $id}} ) {
+	id
+    created_at
+    amount
+    status
+    description
+    recipient {
+      name
+    }
+  }
+}
