@@ -1,8 +1,9 @@
 ﻿using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.SystemTextJson;
+using HasuraAPI.Models;
 
-namespace HasuraAPI;
+namespace HasuraAPI.Services;
 
 public class TransactionService : ITransactionService
 {
@@ -53,25 +54,12 @@ public class TransactionService : ITransactionService
 
         if (payment is null || payment.Status == TransactionDoneStatus)
         {
-            await Task.FromResult(0); 
+            return;
         }
-
-        //var exists = await this.CheckIfRecipientExists(payment.Recipient_Id);
-
-        //if (!exists)
-        //{
-        //    await this.graphqlClient.SendMutationAsync<Payment>(this.BuildUpdatePaymentRequest(payment.Id, "Recipient does not exist!"));
-        //}
 
         await this.graphqlClient.SendMutationAsync<Payment>(BuildCreateTransactionRequest(payment.Sender_Id, payment.Recipient_Id, payment.Amount, payment.Description));
         await this.graphqlClient.SendMutationAsync<Payment>(this.BuildUpdatePaymentRequest(payment.Id, TransactionDoneStatus));
     }
-
-    //private async Task<bool> CheckIfRecipientExists(int id)
-    //{
-    //    var result = await this.graphqlClient.SendQueryAsync<User>(this.BuildCheckIfUserExistsRequest(id));
-    //    return result.Data is not null ? true : false;
-    //}
 
     private GraphQLRequest BuildPaymentSubscriptionRequest()
     {
@@ -89,32 +77,4 @@ public class TransactionService : ITransactionService
         var variables = new { Sender = senderId, Recipient = recipientId, Amount = amount, Description = description };
         return new GraphQLRequest { Query = this.createTransactionRequestQuery, Variables = variables };
     }
-
-    //private GraphQLRequest BuildCheckIfUserExistsRequest(int id)
-    //{
-    //    var variables = new { Id = id};
-    //    return new GraphQLRequest { Query = this.checkIfUserExistRequestQuery, Variables = variables };
-    //}
-}
-
-//public class User
-//{
-//    public int Id { get; set; }
-
-//    public string Name { get; set; }
-//}
-
-public class Payment
-{
-    public int Id { get; set; }
-    public int Sender_Id { get; set; }
-    public int Recipient_Id { get; set; }
-    public double Amount { get; set; }
-    public string Description { get; set; }
-    public string Status { get; set; }
-}
-
-public class PaymentResult
-{
-    public List<Payment> Payments { get; set; }
 }

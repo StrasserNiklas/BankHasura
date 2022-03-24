@@ -1,4 +1,4 @@
-using HasuraAPI;
+using HasuraAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

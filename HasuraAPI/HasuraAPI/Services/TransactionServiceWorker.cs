@@ -1,4 +1,4 @@
-﻿namespace HasuraAPI;
+﻿namespace HasuraAPI.Services;
 
 public class TransactionServiceWorker : IHostedService
 {
