@@ -1,5 +1,4 @@
 ﻿@page "/counter"
-@using HasuraSharedLib
 @using Services;
 @inject BankingService bankingService
 
@@ -7,11 +6,15 @@
 
 <h1>Counter</h1>
 <div class="controls">
-    <label>Login with username: </label>
+    <label>Login with id: </label>
     <input type="text" @bind="@userIdInput">
     <button class="btn btn-primary" @onclick="Login">Login</button>
     <label>@loginResult</label>
 </div>
+
+@*<div class="controls">
+    <label>@informationLabel</label>
+</div>*@
 
 <div class="controls">Create payment:</div>
 
@@ -31,9 +34,6 @@
 <div class="controls">
     <button class="btn btn-primary" @onclick="CreatePayment">Create payment</button>
 </div>
-<div class="controls">
-    <label id="error"></label>
-</div>
 
 <div class="grid-container">
     <div>Payments:</div>
@@ -41,18 +41,18 @@
 
     <div class="grid-item">
         <ul>
-            @foreach (var todo in this.bankingService.Payments)
+            @foreach (var payment in this.bankingService.Payments)
             {
-                <li>@todo.Sender.Name created a payment (@todo.Description) to @todo.Recipient.Name of @todo.Amount with Status: @todo.Status</li>
+                <li>Created a payment (@payment.Description) to @payment.Recipient.Id of @payment.Amount with Status: @payment.Status</li>
             }
         </ul>
     </div>
 
     <div class="grid-item">
         <ul>
-            @foreach (var todo in this.bankingService.Transactions)
+            @foreach (var transaction in this.bankingService.Transactions)
             {
-                <li>@todo.CreatedAt.ToLocalTime() @todo.Sender.Name sent @todo.Amount to @todo.Recipient.Name: @todo.Description</li>
+                <li>@transaction.Sender.Name sent @transaction.Amount to @transaction.Recipient.Name: @transaction.Description</li>
             }
         </ul>
     </div>
@@ -67,15 +67,24 @@
     private string recipientIdInput { get; set; } = "";
     private string amountInput { get; set; } = "";
     private string description { get; set; } = "";
-    private int userId { get; set; }
+    private int userId { get; set; } = -1;
     private bool isLoggedIn { get; set; } = false;
+
+
 
     private string currentCount = "";
 
     private async Task Login()
     {
-        this.userId = await this.bankingService.Login(userIdInput);
+        this.loginResult = "Logging in or creating user...";
+        this.userId = await this.bankingService.LoginAsync(userIdInput);
         this.isLoggedIn = true;
+
+        this.loginResult = "Logged in with ID " + userId;
+        await this.bankingService.GetPaymentsAfterLoginAsync(userId);
+        await this.bankingService.GetTransactionsAfterLoginAsync(userId);
+        await this.bankingService.CreatePaymentSubscription(this.userId);
+        this.loginResult = await this.bankingService.CreateTransactionsSubscription(this.userId);
     }
 
     private async Task CreatePayment()
@@ -87,13 +96,13 @@
 
         if (int.TryParse(this.recipientIdInput, out var recipientId) && double.TryParse(this.amountInput, out var amount))
         {
-            await this.bankingService.CreatePayment(this.userId, recipientId, amount, this.description);
+            this.loginResult = await this.bankingService.CreatePaymentAsync(this.userId, recipientId, amount, this.description);
         }
     }
 
     private async Task IncrementCount()
     {
-        this.bankingService.Payments.Add(new Models.PaymentTransaction() { Amount = 500, Description = "test", Sender = new Models.User() { Name = "nik" }, Recipient = new Models.User() { Name = "fö" } });
+        //this.bankingService.Payments.Add(new Models.PaymentTransaction() { Amount = 500, Description = "test", Sender = new Models.User() { Name = "nik" }, Recipient = new Models.User() { Name = "fö" } });
         //currentCount = "loading";
         //var res = await this.bankingService.CheckIfUserExists(30);
         //currentCount = res.ToString();

@@ -49,10 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HasuraSharedLib\HasuraSharedLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="wwwroot\Querys\CheckIfUserExists.graphql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

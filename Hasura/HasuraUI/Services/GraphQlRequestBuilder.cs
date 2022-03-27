@@ -11,22 +11,22 @@ namespace HasuraUI.Services
         private string getPaymentsRequestQuerySubscription;
         private string getTransactionRequestQuery;
         private string getTransactionRequestQuerySubscription;
-        private readonly HttpClient http;
+        private readonly HttpClient httpClient;
 
         public GraphQlRequestBuilder(HttpClient httpClient)
         {
-            this.http = httpClient;
+            this.httpClient = httpClient;
         }
 
         public async Task LoadFiles()
         {
-            this.createUserRequestQuery = await this.http.GetStringAsync(@"Querys/CreateUser.graphql");
-            this.checkIfUserExistRequestQuery = await this.http.GetStringAsync(@"Querys/CheckUserExists.graphql");
-            this.createPaymentRequestQuery = await this.http.GetStringAsync(@"Querys/CreatePayment.graphql");
-            this.getPaymentsRequestQuery = await this.http.GetStringAsync(@"Querys/GetPaymentsQuery.graphql");
-            this.getPaymentsRequestQuerySubscription = await this.http.GetStringAsync(@"Querys/GetPaymentsSubscription.graphql");
-            this.getTransactionRequestQuery = await this.http.GetStringAsync(@"Querys/GetTransactionsQuery.graphql");
-            this.getTransactionRequestQuerySubscription = await this.http.GetStringAsync(@"Querys/GetTransactionsSubscription.graphql");
+            this.createUserRequestQuery = await this.httpClient.GetStringAsync(@"Querys/CreateUser.graphql");
+            this.checkIfUserExistRequestQuery = await this.httpClient.GetStringAsync(@"Querys/CheckUserExists.graphql");
+            this.createPaymentRequestQuery = await this.httpClient.GetStringAsync(@"Querys/CreatePayment.graphql");
+            this.getPaymentsRequestQuery = await this.httpClient.GetStringAsync(@"Querys/GetPaymentsQuery.graphql");
+            this.getPaymentsRequestQuerySubscription = await this.httpClient.GetStringAsync(@"Querys/GetPaymentsSubscription.graphql");
+            this.getTransactionRequestQuery = await this.httpClient.GetStringAsync(@"Querys/GetTransactionsQuery.graphql");
+            this.getTransactionRequestQuerySubscription = await this.httpClient.GetStringAsync(@"Querys/GetTransactionsSubscription.graphql");
         }
 
         public GraphQLRequest GetTransactionsSubscriptionRequest(int id)

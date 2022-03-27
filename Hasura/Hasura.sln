@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HasuraAPI", "HasuraAPI\Hasu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HasuraUI", "HasuraUI\HasuraUI.csproj", "{084DDBD6-1BCA-4598-A1B7-52B3B4A2E167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HasuraSharedLib", "HasuraSharedLib\HasuraSharedLib.csproj", "{3F04042C-D874-41B9-B4A5-7C33FD9B9D11}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{084DDBD6-1BCA-4598-A1B7-52B3B4A2E167}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084DDBD6-1BCA-4598-A1B7-52B3B4A2E167}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{084DDBD6-1BCA-4598-A1B7-52B3B4A2E167}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F04042C-D874-41B9-B4A5-7C33FD9B9D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F04042C-D874-41B9-B4A5-7C33FD9B9D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F04042C-D874-41B9-B4A5-7C33FD9B9D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F04042C-D874-41B9-B4A5-7C33FD9B9D11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

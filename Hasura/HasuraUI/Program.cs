@@ -1,4 +1,3 @@
-using HasuraSharedLib;
 using HasuraUI;
 using HasuraUI.Services;
 using Microsoft.AspNetCore.Components.Web;
