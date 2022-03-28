@@ -1,0 +1,15 @@
+subscription PaymentSubscription($id: Int!) {
+  payments(limit: 1, order_by: {created_at: desc}, where: { sender_id: {_eq: $id}}) {
+    id
+    created_at
+    amount
+    status
+    description
+    recipient {
+      name
+    }
+    sender {
+      name
+    }
+  }
+}

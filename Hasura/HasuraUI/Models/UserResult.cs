@@ -1,4 +1,6 @@
-﻿namespace HasuraUI.Models
+﻿using SharedLibrary.Models;
+
+namespace HasuraUI.Models
 {
     public class UserResult
     {

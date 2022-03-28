@@ -83,8 +83,7 @@
         this.loginResult = "Logged in with ID " + userId;
         await this.bankingService.GetPaymentsAfterLoginAsync(userId);
         await this.bankingService.GetTransactionsAfterLoginAsync(userId);
-        await this.bankingService.CreatePaymentSubscription(this.userId);
-        this.loginResult = await this.bankingService.CreateTransactionsSubscription(this.userId);
+        this.bankingService.OnUpdate += BankingService_OnUpdate;
     }
 
     private async Task CreatePayment()
@@ -100,8 +99,14 @@
         }
     }
 
+    private void BankingService_OnUpdate(object? sender, EventArgs e)
+    {
+        this.StateHasChanged();
+    }
+
     private async Task IncrementCount()
     {
+        //this.bankingService.Payments[0].Status = "blbalblablabalblab";
         //this.bankingService.Payments.Add(new Models.PaymentTransaction() { Amount = 500, Description = "test", Sender = new Models.User() { Name = "nik" }, Recipient = new Models.User() { Name = "fö" } });
         //currentCount = "loading";
         //var res = await this.bankingService.CheckIfUserExists(30);
