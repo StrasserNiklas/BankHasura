@@ -3,43 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\Querys\CheckIfUserExists.graphql" />
-    <Content Remove="wwwroot\Querys\CheckUserExists.graphql" />
-    <Content Remove="wwwroot\Querys\CreatePayment.graphql" />
-    <Content Remove="wwwroot\Querys\CreateUser.graphql" />
-    <Content Remove="wwwroot\Querys\GetPaymentsQuery.graphql" />
-    <Content Remove="wwwroot\Querys\GetPaymentsSubscription.graphql" />
-    <Content Remove="wwwroot\Querys\GetTransactionsQuery.graphql" />
-    <Content Remove="wwwroot\Querys\GetTransactionsSubscription.graphql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\Querys\CheckUserExists.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\Querys\CreatePayment.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\Querys\CreateUser.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\Querys\GetPaymentsQuery.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\Querys\GetPaymentsSubscription.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\Querys\GetTransactionsQuery.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\Querys\GetTransactionsSubscription.graphql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="GraphQL.Client" Version="4.0.2" />
@@ -49,9 +14,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\Querys\CheckIfUserExists.graphql">
+    <Content Update="wwwroot\Querys\CheckUserExists.graphql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Update="wwwroot\Querys\CreatePayment.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Querys\CreateUser.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Querys\GetPaymentsQuery.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Querys\GetPaymentsSubscription.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Querys\GetTransactionsQuery.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Querys\GetTransactionsSubscription.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

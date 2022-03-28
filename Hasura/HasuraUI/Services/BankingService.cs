@@ -1,5 +1,9 @@
 ﻿using HasuraUI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace HasuraUI.Services
 {
@@ -57,21 +61,24 @@ namespace HasuraUI.Services
 
         public Task CreatePaymentSubscription(int id)
         {
-            var sub = this.graphQlService.GetPaymentsSubscription(id);
-            sub.Subscribe(x => this.HandlePayments(x.Data.Payments));
+            //var sub = 
+                this.graphQlService.GetPaymentsSubscription(id, async (x) => await this.HandlePayments(x.Payments));
+            //sub.Subscribe(x => this.HandlePayments(x.Data.Payments));
             return Task.FromResult(1);
         }
 
         public Task<string> CreateTransactionsSubscription(int id)
         {
-            var sub = this.graphQlService.GetTransactionsSubscription(id);
-            sub.Subscribe(x => this.HandleTransactions(x.Data.Transactions));
-            return Task.FromResult(JsonSerializer.Serialize(sub));
+            //var sub = 
+                this.graphQlService.GetTransactionsSubscription(id, async (x) => await this.HandleTransactions(x.Transactions)); return Task.FromResult("");
+            //sub.Subscribe(x => this.HandleTransactions(x.Data.Transactions));
+            //return Task.FromResult(JsonSerializer.Serialize(sub));
         }
 
-        private void HandlePayments(List<PaymentTransaction> payments)
+        private async Task HandlePayments(List<PaymentTransaction> payments)
         {
-            throw new OutOfMemoryException();
+            Console.WriteLine("Payments drin");
+            //throw new OutOfMemoryException();
 
             var payment = payments.FirstOrDefault();
 
@@ -86,10 +93,14 @@ namespace HasuraUI.Services
             {
                 paymentToEdit.Status = payment.Status;
             }
+
+            await Task.FromResult(1);
         }
 
-        private void HandleTransactions(List<PaymentTransaction> transactions)
+        private async Task HandleTransactions(List<PaymentTransaction> transactions)
         {
+            Console.WriteLine("Transactions drin");
+
             var payment = transactions.FirstOrDefault();
 
             if (payment is null)
@@ -98,6 +109,8 @@ namespace HasuraUI.Services
             }
 
             this.Transactions.Add(payment);
+
+            await Task.FromResult(1);
         }
     }
 }

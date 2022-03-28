@@ -1,4 +1,6 @@
-﻿namespace HasuraUI.Models
+﻿using System;
+
+namespace HasuraUI.Models
 {
     public class CreatedPaymentResult
     {

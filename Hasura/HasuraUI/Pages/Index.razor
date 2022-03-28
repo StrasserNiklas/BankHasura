@@ -15,7 +15,7 @@ Welcome to your new app.
     protected override async Task OnInitializedAsync()
     {
         var builder = new GraphQlRequestBuilder(Http);
-        await builder.LoadFiles();
+        builder.LoadFiles();
         this.graphqlService.Builder = builder;
         await base.OnInitializedAsync();
         return;

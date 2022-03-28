@@ -1,4 +1,6 @@
-﻿namespace HasuraUI.Models
+﻿using System.Collections.Generic;
+
+namespace HasuraUI.Models
 {
     public class PaymentsResult
     {

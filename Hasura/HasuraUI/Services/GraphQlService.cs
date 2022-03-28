@@ -1,7 +1,10 @@
 ﻿using GraphQL;
+using GraphQL.Client.Abstractions.Websocket;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.SystemTextJson;
 using HasuraUI.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace HasuraUI.Services
 {
@@ -15,7 +18,7 @@ namespace HasuraUI.Services
             this.graphqlClient = new GraphQLHttpClient(config =>
             {
                 config.EndPoint = new Uri($"https{url}");
-                config.WebSocketEndPoint = new Uri($"ws{url}");
+                config.WebSocketEndPoint = new Uri($"wss{url}");
                 config.ConfigureWebsocketOptions = (x =>
                 {
                     x.SetRequestHeader("x-hasura-admin-secret", "XTWlYYXfTuM7SVx1zzUE1PpnTxnhSRgsTCBe5gFiWPm6gc6wegO6dqh2GwzVgxkU");
@@ -26,11 +29,18 @@ namespace HasuraUI.Services
             graphqlClient.HttpClient.DefaultRequestHeaders.Add("x-hasura-admin-secret", "XTWlYYXfTuM7SVx1zzUE1PpnTxnhSRgsTCBe5gFiWPm6gc6wegO6dqh2GwzVgxkU");
 
             this.graphqlClient.WebSocketReceiveErrors.Subscribe(x => this.Handle(x));
+            this.graphqlClient.WebsocketConnectionState.Subscribe(x => this.Handle(x));
+
+            this.graphqlClient.InitializeWebsocketConnection();
         }
 
         public void Handle(Exception exction)
         {
-
+            Console.WriteLine(exction.Message);
+        }
+        public void Handle(GraphQLWebsocketConnectionState exction)
+        {
+            Console.WriteLine(exction);
         }
 
         public async Task<PaymentsResult> GetPaymentsAsync(int id)
@@ -39,9 +49,16 @@ namespace HasuraUI.Services
             return result.Data;
         }
 
-        public IObservable<GraphQLResponse<PaymentsResult>> GetPaymentsSubscription(int id)
+        //public IObservable<GraphQLResponse<PaymentsResult>> GetPaymentsSubscription(int id)
+        //{
+        //    return this.graphqlClient.CreateSubscriptionStream<PaymentsResult>(this.Builder.GetPaymentsSubscriptionRequest(id));
+        //}
+
+        public void GetPaymentsSubscription(int id, Action<PaymentsResult> action)
         {
-            return this.graphqlClient.CreateSubscriptionStream<PaymentsResult>(this.Builder.GetPaymentsSubscriptionRequest(id));
+            var sub = this.graphqlClient.CreateSubscriptionStream<PaymentsResult>(this.Builder.GetPaymentsSubscriptionRequest(id));
+            sub.Subscribe(x => action(x.Data));
+            Console.WriteLine("Subscribed to payments");
         }
 
         public async Task<TransactionsResult> GetTransactionsAsync(int id)
@@ -50,9 +67,16 @@ namespace HasuraUI.Services
             return result.Data;
         }
 
-        public IObservable<GraphQLResponse<TransactionsResult>> GetTransactionsSubscription(int id)
+        //public IObservable<GraphQLResponse<TransactionsResult>> GetTransactionsSubscription(int id)
+        //{
+        //    return this.graphqlClient.CreateSubscriptionStream<TransactionsResult>(this.Builder.GetTransactionsSubscriptionRequest(id));
+        //}
+
+        public void GetTransactionsSubscription(int id, Action<TransactionsResult> action)
         {
-            return this.graphqlClient.CreateSubscriptionStream<TransactionsResult>(this.Builder.GetTransactionsSubscriptionRequest(id));
+            var sub = this.graphqlClient.CreateSubscriptionStream<TransactionsResult>(this.Builder.GetTransactionsSubscriptionRequest(id));
+            sub.Subscribe(x => action(x.Data));
+            Console.WriteLine("Subscribed to transactions");
         }
 
         public async Task<object> CreatePaymentAsync(int senderId, int recepientId, double amount, string description)
