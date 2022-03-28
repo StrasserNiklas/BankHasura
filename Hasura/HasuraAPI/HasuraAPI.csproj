@@ -21,6 +21,9 @@
     <None Update="Querys\CreateTransaction.graphql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Querys\PaymentSubscription.graphql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Querys\UpdatePayment.graphql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
