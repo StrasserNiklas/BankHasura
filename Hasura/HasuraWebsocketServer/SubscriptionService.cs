@@ -71,7 +71,7 @@ public class SubscriptionService
 
     private void HandleTransactions(List<PaymentTransaction> transactions)
     {
-        var transaction = transactions.FirstOrDefault();
+         var transaction = transactions.FirstOrDefault();
 
         if (transaction is null)
         {

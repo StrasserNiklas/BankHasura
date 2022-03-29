@@ -6,9 +6,11 @@ subscription PaymentSubscription($id: Int!) {
     status
     description
     recipient {
+      id
       name
     }
     sender {
+      id
       name
     }
   }

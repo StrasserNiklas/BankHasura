@@ -6,8 +6,8 @@ query GetPayments($id: Int!) {
     status
     description
     recipient {
-      name
       id
+      name
     }
     sender {
       id

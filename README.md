@@ -7,6 +7,8 @@ Go to bank, check F12 is websocket fails (dont know why, happens sometimes with 
 Login with id (1 for example)
 **Disclaimer** For whatever reason, the ids are not loaded with graphql, although with a postman query it works, wasnt able to fix it. It works when you create a payment (to id 2 for example)
 
+If status is not changing from "Pending" to "Done, start the HasuraAPI locally (Azure fun for whatever reason)
+
 ## Urls
 
 Websocket connection: ws://hasurawebsocketserver2022032823400.azurewebsites.net/ws
