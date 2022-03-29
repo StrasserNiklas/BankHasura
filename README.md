@@ -1,5 +1,14 @@
 # BankHasura
 
+## How to use
+
+Navigate to UI url: https://hasuraui20220328132531.azurewebsites.net/
+Go to bank, check F12 is websocket fails (dont know why, happens sometimes with azure)
+Login with id (1 for example)
+**Disclaimer** For whatever reason, the ids are not loaded with graphql, although with a postman query it works, wasnt able to fix it. It works when you create a payment (to id 2 for example)
+
+## Urls
+
 Websocket connection: ws://hasurawebsocketserver2022032823400.azurewebsites.net/ws
 TransactionService: https://hasuraapi20220329010150.azurewebsites.net/ 
 404 weil keine Website, Service läuft aber natürlich
