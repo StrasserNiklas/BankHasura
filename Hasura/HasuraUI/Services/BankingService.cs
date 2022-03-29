@@ -1,44 +1,18 @@
-﻿using HasuraUI.Models;
-using SharedLibrary.Models;
+﻿using SharedLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WebSocketLibrary;
 
 namespace HasuraUI.Services
 {
-    public class WebSocketService
-    {
-        private WebSocketClient<SubscriptionRequest, SubscriptionResponse> webSocketClient;
-
-        public WebSocketService(Action<SubscriptionResponse> callback)
-        {
-            this.webSocketClient = new WebSocketClient<SubscriptionRequest, SubscriptionResponse>(
-                "wss://hasurawebsocketserver2022032823400.azurewebsites.net/ws",
-                callback,
-                null,
-                new JsonSerializerOptions()
-                );
-
-            Console.WriteLine("Starting websockets");
-            this.webSocketClient.StartProcessingAsync();
-        }
-
-        public void SendRequest(int id)
-        {
-            this.webSocketClient.Send(new SubscriptionRequest () { Id = id });
-            Console.WriteLine("Sent id to websocket");
-        }
-    }
-
     public class BankingService
     {
         public event EventHandler OnUpdate;
 
         private readonly GraphQlService graphQlService;
-        public List<PaymentTransaction> Transactions { get;  }
+        public List<PaymentTransaction> Transactions { get; }
         public List<PaymentTransaction> Payments { get; }
 
         private WebSocketService websocketService;
@@ -58,35 +32,52 @@ namespace HasuraUI.Services
             return userId;
         }
 
-        public async Task<string> CreatePaymentAsync(int senderId, int recepientId, double amount, string description)
+        public async Task CreatePaymentAsync(int senderId, int recepientId, double amount, string description)
         {
             // TODO maybe check if recipient exists first
+            var newPayment = new PaymentTransaction
+            {
+                Amount = amount,
+                Description = description,
+                Sender = new User() { Id = senderId },
+                Recipient = new User() { Id = recepientId },
+                Status = "Sent"
+            };
+
+            this.Payments.Add(newPayment);
 
             var result = await this.graphQlService.CreatePaymentAsync(senderId, recepientId, amount, description);
             var payment = result.Insert_payments_one;
 
+            Console.WriteLine("Payment created");
+            Console.WriteLine(JsonSerializer.Serialize(result));
+
             if (payment != null)
             {
-                payment.Id = payment.Id;
-                payment.Amount = amount;
-                payment.Description = description;
-                payment.Sender.Id = senderId;
-                payment.Recipient.Id = recepientId;
-                this.Payments.Add(payment);
+                newPayment.Id = payment.Id;
+                newPayment.Status = payment.Status;
+                newPayment.Recipient.Name = payment.Recipient.Name;
+                //payment.Amount = amount;
+                //payment.Description = description;
+                //payment.Sender.Id = senderId;
+                //payment.Recipient.Id = recepientId;
+                //this.Payments.Add(payment);
             }
-
-            return JsonSerializer.Serialize(result);
         }
 
         public async Task GetPaymentsAfterLoginAsync(int id)
         {
             var result = await this.graphQlService.GetPaymentsAsync(id);
+            Console.WriteLine("GetPaymentsAfterLoginAsync");
+            Console.WriteLine(JsonSerializer.Serialize(result));
             this.Payments.AddRange(result.Payments);
         }
 
         public async Task GetTransactionsAfterLoginAsync(int id)
         {
             var result = await this.graphQlService.GetTransactionsAsync(id);
+            Console.WriteLine("GetTransactionsAfterLoginAsync");
+            Console.WriteLine(JsonSerializer.Serialize(result));
             this.Transactions.AddRange(result.Transactions);
         }
 

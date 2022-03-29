@@ -7,8 +7,10 @@ query GetPayments($id: Int!) {
     description
     recipient {
       name
+      id
     }
     sender {
+      id
       name
     }
   }

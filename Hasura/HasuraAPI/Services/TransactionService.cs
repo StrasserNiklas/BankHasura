@@ -36,11 +36,16 @@ public class TransactionService : ITransactionService
     public void Subscribe()
     {
         var paymentSubscription = this.graphqlClient.CreateSubscriptionStream<PaymentResult>(this.BuildPaymentSubscriptionRequest());
-        paymentSubscription.Subscribe(async x => await this.HandlePayments(x.Data.Payments));
+        paymentSubscription.Subscribe(async x => await this.HandlePayments(x.Data?.Payments));
     }
 
     private async Task HandlePayments(List<Payment> payments)
     {
+        if (payments is null)
+        {
+            return;
+        }
+
         var payment = payments.FirstOrDefault();
 
         if (payment is null || payment.Status == TransactionDoneStatus)

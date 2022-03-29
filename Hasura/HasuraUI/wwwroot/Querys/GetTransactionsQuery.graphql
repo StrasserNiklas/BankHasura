@@ -5,9 +5,11 @@ query GetTransactions($id: Int!) {
     amount
 	description
     sender {
+      id
       name
     }
     recipient {
+      id
       name
     }
   }

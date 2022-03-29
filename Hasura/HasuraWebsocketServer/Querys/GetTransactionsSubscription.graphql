@@ -6,9 +6,11 @@ subscription TransactionSubscription($id: Int!) {
 	description
     sender {
       name
+      id
     }
     recipient {
       name
+      id
     }
   }
 }
