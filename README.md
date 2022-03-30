@@ -6,7 +6,7 @@ Database was created using Heroku in Harusa, tables where created there (users, 
 ## How to use
 
 Navigate to UI url: https://hasuraui20220328132531.azurewebsites.net/
-Go to bank, check F12 is websocket fails (dont know why, happens sometimes with azure)
+Go to bank, check F12 if websocket fails (dont know why, happens sometimes with azure).
 Login with id (1 for example)
 **Disclaimer** For whatever reason, the ids are not loaded with graphql, although with a postman query it works, wasnt able to fix it. It works when you create a payment (to id 2 for example)
 
