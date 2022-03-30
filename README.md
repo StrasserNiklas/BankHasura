@@ -1,5 +1,8 @@
 # BankHasura
 
+## Database
+Database was created using Heroku in Harusa, tables where created there (users, transactions, payments) **DISCLAIMER** ONLY this line was added after 17.50
+
 ## How to use
 
 Navigate to UI url: https://hasuraui20220328132531.azurewebsites.net/
